@@ -1,7 +1,6 @@
-import {App, Editor, MarkdownView, Modal, Notice, Plugin} from 'obsidian';
+import {App, MarkdownRenderChild, MarkdownPostProcessorContext, Modal, Plugin} from 'obsidian';
+import {Infographic} from '@antv/infographic';
 import {DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab} from "./settings";
-
-// Remember to rename these classes and interfaces!
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
@@ -9,65 +8,11 @@ export default class MyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		// This creates an icon in the left ribbon.
-		this.addRibbonIcon('dice', 'Sample', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
+		// Register markdown post processor for infographic code blocks
+		this.registerMarkdownCodeBlockProcessor('infographic', this.renderInfographic.bind(this));
 
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status bar text');
-
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: 'open-modal-simple',
-			name: 'Open modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			}
-		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'replace-selected',
-			name: 'Replace selected content',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				editor.replaceSelection('Sample editor command');
-			}
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-modal-complex',
-			name: 'Open modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
-
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
-				}
-				return false;
-			}
-		});
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
+		// Add settings tab
 		this.addSettingTab(new SampleSettingTab(this.app, this));
-
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			new Notice("Click");
-		});
-
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-
 	}
 
 	onunload() {
@@ -80,20 +25,113 @@ export default class MyPlugin extends Plugin {
 	async saveSettings() {
 		await this.saveData(this.settings);
 	}
+
+	/**
+	 * Render infographic from code block source
+	 */
+	private renderInfographic = async (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
+		const container = document.createElement('div');
+		container.className = 'infographic-container';
+		container.style.width = `${this.settings.defaultWidth}px`;
+		container.style.minHeight = `${this.settings.defaultHeight}px`;
+		container.style.margin = '0 auto';
+		container.style.cursor = 'pointer';
+
+		el.appendChild(container);
+
+		// Create infographic
+		const infographic = new Infographic({
+			container: container,
+			width: this.settings.defaultWidth,
+			height: this.settings.defaultHeight,
+			padding: this.settings.padding,
+		});
+
+		infographic.render(source);
+
+		// Add double-click to zoom
+		container.addEventListener('dblclick', () => {
+			new InfographicModal(this.app, source, this.settings).open();
+		});
+
+		// Register cleanup
+		ctx.addChild(new InfographicCleanup(infographic));
+	}
 }
 
-class SampleModal extends Modal {
-	constructor(app: App) {
+/**
+ * Cleanup class for infographic instances
+ */
+class InfographicCleanup extends MarkdownRenderChild {
+	private infographic: Infographic;
+
+	constructor(infographic: Infographic) {
+		super(null as any);
+		this.infographic = infographic;
+	}
+
+	onunload() {
+		this.infographic.destroy();
+	}
+}
+
+/**
+ * Modal for displaying enlarged infographic
+ */
+class InfographicModal extends Modal {
+	private source: string;
+	private settings: MyPluginSettings;
+
+	constructor(app: App, source: string, settings: MyPluginSettings) {
 		super(app);
+		this.source = source;
+		this.settings = settings;
 	}
 
 	onOpen() {
-		let {contentEl} = this;
-		contentEl.setText('Woah!');
+		const { contentEl, modalEl } = this as any;
+		// Override Obsidian Modal default width limits
+		if (modalEl) {
+			modalEl.style.maxWidth = '90vw';
+			modalEl.style.width = '90vw';
+			modalEl.style.minWidth = '600px';
+		}
+
+		contentEl.style.padding = '20px';
+		contentEl.style.background = 'var(--background-primary)';
+		contentEl.style.overflow = 'auto';
+
+		// Create container first
+		const container = document.createElement('div');
+		container.style.minHeight = '400px';
+		contentEl.appendChild(container);
+
+		// Wait for DOM to be ready then render
+		requestAnimationFrame(() => {
+			setTimeout(() => {
+				const actualWidth = container.clientWidth || 800;
+				const modalHeight = 700;
+
+				const infographic = new Infographic({
+					container: container,
+					width: actualWidth,
+					height: modalHeight,
+					padding: 30,
+				});
+
+				infographic.render(this.source);
+
+				// Add double-click to close
+				contentEl.addEventListener('dblclick', () => {
+					infographic.destroy();
+					this.close();
+				});
+			}, 50);
+		});
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }

@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "obsidian-antv-infographic",
+	"name": "AntV Infographic",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "在 Obsidian 中渲染 AntV Infographic 可视化图表，支持层级结构、时间线、列表等多种模板",
+	"author": "Your Name",
+	"authorUrl": "https://github.com/your-username",
 	"isDesktopOnly": false
 }

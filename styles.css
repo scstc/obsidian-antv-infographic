@@ -1,8 +1,32 @@
-/*
+/* Infographic container styles */
+.infographic-container {
+  margin: 1em auto;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--background-primary);
+  overflow: hidden;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.infographic-container canvas,
+.infographic-container svg {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+}
 
-If your plugin does not need CSS, delete this file.
+.infographic-error {
+  padding: 1em;
+  color: var(--text-error);
+  background: var(--background-primary);
+  border-radius: 4px;
+}
 
-*/
+.infographic-error pre {
+  margin-top: 0.5em;
+  padding: 0.5em;
+  background: var(--background-secondary);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85em;
+}

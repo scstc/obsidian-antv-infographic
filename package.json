@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-antv-infographic",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Render AntV Infographic visualizations in Obsidian",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
@@ -10,7 +10,7 @@
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint ."
 	},
-	"keywords": [],
+	"keywords": ["obsidian", "antv", "infographic", "visualization"],
 	"license": "0-BSD",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
@@ -24,6 +24,7 @@
 		"jiti": "2.6.1"
 	},
 	"dependencies": {
+		"@antv/infographic": "^0.2.16",
 		"obsidian": "latest"
 	}
 }

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:infographic.antv.vision)",
+      "Bash(cd \"D:\\\\code\\\\obsidian-antv-infographic\" && npm install)",
+      "Bash(npm view:*)",
+      "Bash(cd \"D:\\\\code\\\\obsidian-antv-infographic\" && npm run build)",
+      "WebFetch(domain:minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com)",
+      "Bash(curl -s \"https://minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com/ccv2%2F2026-03-12%2FMiniMax-M2.5%2F2013587264642229147%2F7a72203fd6762a5a82a0d65bc624072b7c240db2bdc49b143281a7d34af1ec28..png?Expires=1773377077&OSSAccessKeyId=LTAI5tGLnRTkBjLuYPjNcKQ8&Signature=%2FfdMaBb3lshnxbcg1R7tca%2F6AYk%3D\" -o temp.png && ls -la temp.png)",
+      "Bash(curl -s \"https://minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com/ccv2%2F2026-03-12%2FMiniMax-M2.5%2F2013587264642229147%2F3d890b1145550cad5b01f247b0cde63be725bfe0d74f1a7c31e11326ef3a8c84..png?Expires=1773411797&OSSAccessKeyId=LTAI5tGLnRTkBjLuYPjNcKQ8&Signature=0M8unKOXnwv4nx2AGry1HgM4H4I%3D\" -o temp2.png)"
+    ]
+  }
+}
