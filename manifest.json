@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-antv-infographic",
+	"id": "antv-infographic",
 	"name": "AntV Infographic",
-	"version": "2026.3.121",
+	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "在 Obsidian 中渲染 AntV Infographic 可视化图表，支持层级结构、时间线、列表等多种模板",
+	"description": "Render AntV Infographic visualization charts in Obsidian, supporting multiple templates such as hierarchical structures, timelines, and lists.",
 	"author": "simple",
 	"authorUrl": "https://github.com/scstc",
 	"isDesktopOnly": false
