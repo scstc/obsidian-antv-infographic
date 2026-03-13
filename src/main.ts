@@ -32,8 +32,9 @@ export default class AntVInfographicPlugin extends Plugin {
 	private renderInfographic = (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
 		const container = document.createElement('div');
 		container.className = 'infographic-container';
-		container.style.width = `${this.settings.defaultWidth}px`;
-		container.style.minHeight = `${this.settings.defaultHeight}px`;
+		// Dynamic values - use CSS variable for theme compatibility
+		container.style.width = `var(--infographic-width, ${this.settings.defaultWidth}px)`;
+		container.style.minHeight = `var(--infographic-min-height, ${this.settings.defaultHeight}px)`;
 
 		el.appendChild(container);
 
@@ -89,16 +90,14 @@ class InfographicModal extends Modal {
 	onOpen() {
 		const { contentEl } = this;
 		const modalEl = (this as unknown as { modalEl: HTMLElement }).modalEl;
-		// Override Obsidian Modal default width limits
+		// Override Obsidian Modal default width limits using CSS variables for theme compatibility
 		if (modalEl) {
 			modalEl.style.maxWidth = '90vw';
 			modalEl.style.width = '90vw';
 			modalEl.style.minWidth = '600px';
 		}
 
-		contentEl.style.padding = '20px';
-		contentEl.style.background = 'var(--background-primary)';
-		contentEl.style.overflow = 'auto';
+		contentEl.classList.add('infographic-modal-content');
 
 		// Create container first
 		const container = document.createElement('div');

@@ -13,6 +13,13 @@
   min-height: 300px;
 }
 
+/* Modal content styles - for setCssProps */
+.infographic-modal-content {
+  padding: 20px;
+  background: var(--background-primary);
+  overflow: auto;
+}
+
 .infographic-container canvas,
 .infographic-container svg {
   display: block;
