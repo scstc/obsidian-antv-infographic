@@ -10,7 +10,9 @@
       "Bash(curl -s \"https://minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com/ccv2%2F2026-03-12%2FMiniMax-M2.5%2F2013587264642229147%2F3d890b1145550cad5b01f247b0cde63be725bfe0d74f1a7c31e11326ef3a8c84..png?Expires=1773411797&OSSAccessKeyId=LTAI5tGLnRTkBjLuYPjNcKQ8&Signature=0M8unKOXnwv4nx2AGry1HgM4H4I%3D\" -o temp2.png)",
       "Bash(cd \"D:\\\\code\\\\obsidian-antv-infographic\" && gh release create 1.0.0 --title \"Version 1.0.0\" --notes \"Initial release\")",
       "Read(//d D:/code/**)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(gh pr:*)",
+      "Bash(where gh:*)"
     ]
   }
 }

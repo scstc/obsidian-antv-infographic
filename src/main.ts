@@ -109,16 +109,21 @@ class InfographicModal extends Modal {
 		requestAnimationFrame(() => {
 			setTimeout(() => {
 				const actualWidth = container.clientWidth || 800;
-				const modalHeight = 700;
 
 				const infographic = new Infographic({
 					container: container,
 					width: actualWidth,
-					height: modalHeight,
 					padding: 30,
 				});
 
 				infographic.render(this.source);
+
+				// Auto adjust height based on content
+				const canvas = container.querySelector('canvas');
+				if (canvas) {
+					const height = (canvas as HTMLCanvasElement).height;
+					container.style.minHeight = `${height}px`;
+				}
 
 				// Add double-click to close
 				contentEl.addEventListener('dblclick', () => {
