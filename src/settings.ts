@@ -1,24 +1,24 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
-import MyPlugin from "./main";
+import AntVInfographicPlugin from "./main";
 
-export interface MyPluginSettings {
+export interface AntVInfographicSettings {
 	defaultWidth: number;
 	defaultHeight: number;
 	padding: number;
 	maxWidth: number;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
+export const DEFAULT_SETTINGS: AntVInfographicSettings = {
 	defaultWidth: 600,
 	defaultHeight: 300,
 	padding: 16,
 	maxWidth: 0,
 }
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export class AntVInfographicSettingTab extends PluginSettingTab {
+	plugin: AntVInfographicPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: AntVInfographicPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}

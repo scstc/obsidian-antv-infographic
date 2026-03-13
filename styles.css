@@ -6,6 +6,11 @@
   border-radius: 4px;
   background: var(--background-primary);
   overflow: hidden;
+  cursor: pointer;
+}
+
+.infographic-modal-container {
+  min-height: 400px;
 }
 
 .infographic-container canvas,

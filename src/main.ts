@@ -1,9 +1,9 @@
 import {App, MarkdownRenderChild, MarkdownPostProcessorContext, Modal, Plugin} from 'obsidian';
 import {Infographic} from '@antv/infographic';
-import {DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab} from "./settings";
+import {DEFAULT_SETTINGS, AntVInfographicSettings, AntVInfographicSettingTab} from "./settings";
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class AntVInfographicPlugin extends Plugin {
+	settings: AntVInfographicSettings;
 
 	async onload() {
 		await this.loadSettings();
@@ -12,14 +12,14 @@ export default class MyPlugin extends Plugin {
 		this.registerMarkdownCodeBlockProcessor('infographic', this.renderInfographic.bind(this));
 
 		// Add settings tab
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new AntVInfographicSettingTab(this.app, this));
 	}
 
 	onunload() {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<MyPluginSettings>);
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<AntVInfographicSettings>);
 	}
 
 	async saveSettings() {
@@ -29,12 +29,11 @@ export default class MyPlugin extends Plugin {
 	/**
 	 * Render infographic from code block source
 	 */
-	private renderInfographic = async (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
+	private renderInfographic = (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
 		const container = document.createElement('div');
 		container.className = 'infographic-container';
 		container.style.width = `${this.settings.defaultWidth}px`;
 		container.style.minHeight = `${this.settings.defaultHeight}px`;
-		container.style.cursor = 'pointer';
 
 		el.appendChild(container);
 
@@ -46,7 +45,7 @@ export default class MyPlugin extends Plugin {
 			padding: this.settings.padding,
 		});
 
-		infographic.render(source);
+		void infographic.render(source);
 
 		// Add double-click to zoom
 		container.addEventListener('dblclick', () => {
@@ -65,7 +64,7 @@ class InfographicCleanup extends MarkdownRenderChild {
 	private infographic: Infographic;
 
 	constructor(infographic: Infographic) {
-		super(null as any);
+		super(document.createElement('div'));
 		this.infographic = infographic;
 	}
 
@@ -79,16 +78,17 @@ class InfographicCleanup extends MarkdownRenderChild {
  */
 class InfographicModal extends Modal {
 	private source: string;
-	private settings: MyPluginSettings;
+	private settings: AntVInfographicSettings;
 
-	constructor(app: App, source: string, settings: MyPluginSettings) {
+	constructor(app: App, source: string, settings: AntVInfographicSettings) {
 		super(app);
 		this.source = source;
 		this.settings = settings;
 	}
 
 	onOpen() {
-		const { contentEl, modalEl } = this as any;
+		const { contentEl } = this;
+		const modalEl = (this as unknown as { modalEl: HTMLElement }).modalEl;
 		// Override Obsidian Modal default width limits
 		if (modalEl) {
 			modalEl.style.maxWidth = '90vw';
@@ -102,7 +102,7 @@ class InfographicModal extends Modal {
 
 		// Create container first
 		const container = document.createElement('div');
-		container.style.minHeight = '400px';
+		container.className = 'infographic-modal-container';
 		contentEl.appendChild(container);
 
 		// Wait for DOM to be ready then render
