@@ -29,7 +29,7 @@ export default class AntVInfographicPlugin extends Plugin {
 	/**
 	 * Render infographic from code block source
 	 */
-	private renderInfographic = (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
+	private renderInfographic = async (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
 		const container = document.createElement('div');
 		container.className = 'infographic-container';
 		// Dynamic values - use CSS variable for theme compatibility
@@ -46,7 +46,7 @@ export default class AntVInfographicPlugin extends Plugin {
 			padding: this.settings.padding,
 		});
 
-		void infographic.render(source);
+		await infographic.render(source);
 
 		// Add double-click to zoom
 		container.addEventListener('dblclick', () => {
