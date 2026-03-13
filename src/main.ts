@@ -29,7 +29,7 @@ export default class AntVInfographicPlugin extends Plugin {
 	/**
 	 * Render infographic from code block source
 	 */
-	private renderInfographic = async (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
+	private renderInfographic = (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
 		const container = document.createElement('div');
 		container.className = 'infographic-container';
 		// Dynamic values - use CSS variable for theme compatibility
@@ -46,7 +46,7 @@ export default class AntVInfographicPlugin extends Plugin {
 			padding: this.settings.padding,
 		});
 
-		await infographic.render(source);
+		infographic.render(source);
 
 		// Add double-click to zoom
 		container.addEventListener('dblclick', () => {
@@ -90,11 +90,9 @@ class InfographicModal extends Modal {
 	onOpen() {
 		const { contentEl } = this;
 		const modalEl = (this as unknown as { modalEl: HTMLElement }).modalEl;
-		// Override Obsidian Modal default width limits using CSS variables for theme compatibility
+		// Override Obsidian Modal default width limits using setCssProps for theme compatibility
 		if (modalEl) {
-			modalEl.style.maxWidth = '90vw';
-			modalEl.style.width = '90vw';
-			modalEl.style.minWidth = '600px';
+			modalEl.setCssProps({ maxWidth: '90vw', width: '90vw', minWidth: '600px' });
 		}
 
 		contentEl.classList.add('infographic-modal-content');
@@ -120,7 +118,7 @@ class InfographicModal extends Modal {
 				// Auto adjust height based on content
 				const canvas = container.querySelector('canvas');
 				if (canvas) {
-					const height = (canvas as HTMLCanvasElement).height;
+					const height = canvas.height;
 					container.style.minHeight = `${height}px`;
 				}
 
