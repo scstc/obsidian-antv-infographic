@@ -34,7 +34,6 @@ export default class MyPlugin extends Plugin {
 		container.className = 'infographic-container';
 		container.style.width = `${this.settings.defaultWidth}px`;
 		container.style.minHeight = `${this.settings.defaultHeight}px`;
-		container.style.margin = '0 auto';
 		container.style.cursor = 'pointer';
 
 		el.appendChild(container);
