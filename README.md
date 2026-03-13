@@ -43,7 +43,7 @@ data
 - `hierarchy-structure-mirror` - 镜像层级结构
 - `hierarchy-tree` - 树形层级
 
-更多模板请参考 [AntV Infographic 文档](https://infographic.antv.vision/learn)。
+更多模板请参考 [AntV Infographic 示例](https://infographic.antv.vision/gallery)。
 
 ## 开发
 
