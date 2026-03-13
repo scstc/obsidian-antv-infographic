@@ -32,6 +32,10 @@ data
       desc 完成
 ```
 
+### 渲染效果
+<img width="1538" height="797" alt="PixPin_20260313090210" src="https://github.com/user-attachments/assets/6d6bb7a1-5977-4584-9da1-25433d23cb5c" />
+
+
 ### 可用模板
 
 - `list-row-simple-horizontal-arrow` - 水平箭头列表
