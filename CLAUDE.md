@@ -48,6 +48,11 @@ The plugin uses `registerMarkdownCodeBlockProcessor` to intercept `infographic` 
 - Settings persist via `this.loadData()` / `this.saveData()`
 - Bundle all dependencies into `main.js` (no unbundled runtime deps)
 
+## Styling
+
+- Charts are left-aligned by default (using `margin: 1em 0` in CSS)
+- Modal view (on double-click) is centered for better viewing
+
 ## Testing
 
 Manually install plugin to test:
