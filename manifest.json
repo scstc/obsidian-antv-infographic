@@ -3,7 +3,7 @@
 	"name": "AntV Infographic",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Render AntV Infographic visualization charts in Obsidian, supporting multiple templates such as hierarchical structures, timelines, and lists.",
+	"description": "Render AntV Infographic visualization charts, supporting multiple templates such as hierarchical structures, timelines, and lists.",
 	"author": "simple",
 	"authorUrl": "https://github.com/scstc",
 	"isDesktopOnly": false
